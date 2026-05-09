@@ -1,4 +1,4 @@
-# Grupo 2: OSINT y Huella Digital (3 estudiantes)
+# Grupo 2: OSINT y Huella Digital (3 estudiantes - listo el pull requests)
 import datetime
 import whois
 import requests
