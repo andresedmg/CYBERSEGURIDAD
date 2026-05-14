@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\geometry{a4paper, margin=1in}
+
+\title{Guía para la Creación de Pull Requests (PR) en GitHub \\ \large Curso: Seguridad Informática}
+\author{Prof. César Rodríguez}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introducción}
+Como parte de la metodología de trabajo colaborativo en el desarrollo de nuestra Suite de Auditoría de Seguridad Informática, utilizaremos \textbf{GitHub} para integrar los aportes de cada grupo. Esta guía detalla los pasos estandarizados para enviar sus contribuciones al repositorio principal del curso mediante \textit{Pull Requests} (PR).
+
+\section{Paso 1: Realizar un \textit{Fork} del Repositorio}
+Dado que los estudiantes no tienen permisos de escritura directa en el repositorio \texttt{main} del curso, el primer paso es crear una copia personal en su propia cuenta de GitHub.
+\begin{enumerate}
+    \item Ingrese a la página del repositorio principal del curso en GitHub.
+    \item Haga clic en el botón \textbf{'Fork'} ubicado en la esquina superior derecha.
+    \item Seleccione su cuenta personal como destino para copiar el repositorio.
+\end{enumerate}
+
+\section{Paso 2: Clonar su Repositorio Localmente}
+Abra su terminal y clone el repositorio que ahora reside en su cuenta personal. Reemplace \texttt{SU\_USUARIO} con su nombre de usuario de GitHub:
+\begin{verbatim}
+git clone https://github.com/SU_USUARIO/CYBERSEGURIDAD.git
+cd CYBERSEGURIDAD
+\end{verbatim}
+
+\section{Paso 3: Crear una Rama de Trabajo (\textit{Branch})}
+Nunca trabaje directamente sobre la rama \texttt{main}. Para mantener el orden, cree una rama específica para la tarea asignada a su grupo (ej. DNS, OSINT, Discovery, Scanning):
+\begin{verbatim}
+git checkout -b feature/grupoX-estudianteY
+\end{verbatim}
+
+\section{Paso 4: Realizar los Cambios y Hacer \textit{Push}}
+Trabaje \textbf{únicamente} en el archivo asignado a su grupo dentro de la carpeta \texttt{modulos/} (ej. \texttt{modulos/scanning.py}). Recuerde la \textbf{Regla de Oro}: ¡Está estrictamente prohibido modificar \texttt{auditoria.py} o los archivos de otros grupos!
+
+Una vez finalizada y probada su función localmente:
+\begin{verbatim}
+git add modulos/su_archivo_de_grupo.py
+git commit -m 'Implementada funcion XYZ segun los requerimientos'
+git push origin feature/grupoX-estudianteY
+\end{verbatim}
+
+\section{Paso 5: Crear el \textit{Pull Request}}
+\begin{enumerate}
+    \item Vaya a la página de su repositorio (\textit{fork}) en GitHub desde su navegador web.
+    \item Verá un banner verde que dice \textbf{'Compare \& pull request'}. Haga clic en él.
+    \item Asegúrese de que la rama base (\textit{base repository/branch}) sea la del curso y la rama de comparación (\textit{head repository/branch}) sea la de su cuenta.
+    \item En la descripción del PR, \textbf{debe} incluir una explicación clara de lo que desarrolló, mencionando su Grupo y su Número de Estudiante.
+    \item Haga clic en \textbf{'Create pull request'}.
+\end{enumerate}
+
+\section*{Lista de Verificación antes de Enviar}
+Para que su Pull Request sea aprobado e integrado, asegúrese de cumplir con los siguientes puntos:
+\begin{itemize}
+    \item[\checkmark] \textbf{Contrato de Datos:} Su función retorna un diccionario válido según \texttt{docs/schema\_resultados.json}.
+    \item[\checkmark] \textbf{Calidad de Código:} Incluyó \textit{Type Hinting} y \textit{Docstrings} (Estilo Google).
+    \item[\checkmark] \textbf{Resiliencia:} Su bloque de código está protegido por \texttt{try-except} para capturar errores de red sin detener la auditoría.
+    \item[\checkmark] \textbf{Limpieza:} Eliminó la instrucción \texttt{raise NotImplementedError} de la plantilla base.
+\end{itemize}
+
+\vspace{0.5cm}
+\noindent \textit{Nota: Si el profesor realiza comentarios o solicita cambios en su PR, no necesita crear uno nuevo. Simplemente haga los cambios en su computadora, haga \texttt{commit} y \texttt{push} nuevamente a su rama. El PR se actualizará de forma automática.}
+
+\end{document}
