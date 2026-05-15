@@ -1,0 +1,88 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\geometry{a4paper, margin=1in}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green!60!black},
+    showstringspaces=false,
+    frame=single,
+    breaklines=true,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ñ}{{\~N}}1
+}
+
+\title{Reporte de Revisión del Pull Request \\ \large Grupo 3 - Discovery}
+\author{Prof. César Rodríguez}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Resumen General}
+\textbf{Veredicto:} \textcolor{red}{\textbf{Rechazado (Solicitar Cambios)}} \\
+El Pull Request contiene errores críticos en la implementación y en el contrato de datos por parte del Estudiante 2, lo que romperá la validación de la suite. No se debe aceptar hasta que se corrijan.
+
+\section*{Evaluación por Estudiante}
+
+\subsection*{\textcolor{green!70!black}{Estudiante 1 (ping\_sweep)}}
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{Asignación (ICMP Echo Request):} Implementada correctamente usando la librería \texttt{subprocess}.
+    \item \textbf{Contrato de Datos (Esquema JSON):} Cumple al 100\%. Las llaves \texttt{status} y \texttt{data} están correctas.
+    \item \textbf{Manejo de Errores y Tipado:} Bien documentado y protegido con \texttt{try-except}.
+    \item \textbf{\textcolor{orange}{Observación Técnica:}} Se están usando los parámetros \texttt{-n} y \texttt{-w} en el comando \texttt{ping}, exclusivos de \textbf{Windows}. Si este script se ejecuta en Linux o macOS, fallará silenciosamente. Se sugiere investigar cómo detectar el sistema operativo (ej. con \texttt{platform.system()}) y cambiar a \texttt{-c} y \texttt{-W}.
+\end{itemize}
+
+\subsection*{\textcolor{red}{Estudiante 2 (procesar\_cidr)}}
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{Asignación (TCP SYN Ping):} \textbf{\textcolor{red}{No cumplió la asignación.}} El \textit{Plan de Trabajo} (Semana 3) solicitaba un \textit{'Escaneo de Ping con TCP SYN a un puerto común'}. El estudiante se limitó a crear una función que convierte un formato CIDR a una lista de IPs.
+    \item \textbf{Contrato de Datos (Esquema JSON):} \textbf{\textcolor{red}{Rompió el esquema.}} Renombró la llave obligatoria \texttt{'status'} por \texttt{'exito'}, y \texttt{'data'} por \texttt{'datos'}. El validador principal lanzará un error.
+\end{itemize}
+
+\subsection*{\textcolor{green!70!black}{Estudiante 3 (ping\_tcp\_ack)}}
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{Asignación (TCP ACK Ping):} Implementada magistralmente. Demuestra investigación al usar la librería \texttt{scapy} inyectando un paquete con la bandera correcta (\texttt{flags='A'}) y comprobando si el host devuelve un RST (\texttt{flags == 0x4}).
+    \item \textbf{Contrato de Datos (Esquema JSON):} Cumple al 100\%.
+    \item \textbf{Manejo de Errores y Tipado:} Correcto.
+\end{itemize}
+
+\section*{Acción Requerida}
+Se solicita al Estudiante 2 que reescriba su función. A continuación, se presenta un bloque de código como guía sobre lo que se esperaba para su asignación (TCP SYN):
+
+\begin{lstlisting}
+def ping_tcp_syn(target_range: str) -> dict:
+    '''
+    Estudiante 2: Escaneo de Ping con TCP SYN a un puerto común (ej. 80).
+    '''
+    resultado = {
+        'modulo': 'Discovery',
+        'grupo': 3,
+        'estudiante': 'E2',
+        'target': target_range,
+        'timestamp': datetime.datetime.now().isoformat(),
+        'status': 'success',  # <-- DEBE ser status, no 'exito'
+        'data': {'hosts_activos': []}, # <-- DEBE ser data, no 'datos'
+        'error_message': None
+    }
+    try:
+        red = ipaddress.ip_network(target_range, strict=False)
+        for host in red.hosts():
+            # Lógica de escaneo TCP SYN con Scapy
+            pass
+    except Exception as e:
+        resultado['status'] = 'error'
+        resultado['error_message'] = str(e)
+        
+    return resultado
+\end{lstlisting}
+
+\end{document}
