@@ -146,3 +146,22 @@ Toda notación científica, variable o unidad especial que resida dentro de los 
 ```latex
 \draw (0,0) to[R, l=$R_1 = \qty{10}{\k\ohm}$] (2,0);
 ```
+## 8. Error de compilación con comillas dobles y texto monoespaciado (Babel Español)
+
+**El Problema:**
+Al compilar el documento surge el error `Bad character code (-1). \es@chf ->\char \hyphenchar \font`. Este problema ocurre por una interacción entre el paquete babel (configurado en español) y el uso de comillas dobles (") dentro de comandos de texto monoespaciado como `\texttt{}`. En español, babel convierte las comillas en caracteres activos, y al intentar buscar el guion de separación de sílabas en la fuente monoespaciada (cuyo valor es -1 por defecto), LaTeX colapsa.
+
+**La Solución:**
+Se deben realizar ajustes en el preámbulo para incluir la codificación T1 y desactivar los atajos conflictivos de babel. Además, se recomienda usar comillas simples dentro de bloques `\texttt{}`.
+
+**Ejemplo de configuración corregida (Preámbulo):**
+```latex
+% 1. Añadir codificación de fuente T1:
+\usepackage[T1]{fontenc}
+
+% 2. Configurar babel para desactivar atajos de comillas:
+\usepackage[spanish,es-noquoting,es-noshorthands]{babel}
+```
+
+**Ejemplo de uso corregido en texto:**
+Preferir `flags='R'` en lugar de usar dobles comillas `flags="R"`.

@@ -1,0 +1,65 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting,es-noshorthands]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\geometry{a4paper, margin=1in}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green!60!black},
+    showstringspaces=false,
+    frame=single,
+    breaklines=true,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ñ}{{\~N}}1
+}
+
+\title{Segundo Reporte de Revisión del Pull Request \\ \large Grupo 3 - Discovery}
+\author{Prof. César Rodríguez}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Resumen General}
+\textbf{Veredicto:} \textcolor{green!70!black}{\textbf{Aprobado e Integrado (con correcciones menores)}} \\
+El Estudiante 2 corrigió satisfactoriamente los problemas lógicos y de contrato de datos señalados en el primer reporte. Aunque se encontraron errores de sintaxis y variables en la nueva entrega, el profesor procedió a parchear el código y fusionarlo en la rama principal para no retrasar más el progreso del grupo.
+
+\section*{Evaluación Actualizada por Estudiante}
+
+\subsection*{\textcolor{green!70!black}{Estudiante 1 (ping\_sweep)}}
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{Estado:} Aprobado.
+    \item \textbf{Mejora Integrada:} Durante esta revisión, se implementó la detección de sistema operativo (\texttt{platform.system()}) sugerida en el reporte anterior, logrando que el comando de \texttt{ping} funcione de manera multiplataforma (Windows y Linux/macOS).
+\end{itemize}
+
+\subsection*{\textcolor{green!70!black}{Estudiante 2 (ping\_tcp\_syn)}}
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{Asignación (TCP SYN Ping):} \textbf{\textcolor{green!70!black}{Cumplida.}} La lógica del escaneo es correcta y denota entendimiento del protocolo. Se detecta exitosamente la bandera SYN-ACK (\texttt{0x12}) y se destaca la excelente práctica de enviar un paquete RST (\texttt{flags='R'}) para cerrar cordialmente la conexión \textit{Half-Open}.
+    \item \textbf{Contrato de Datos:} \textbf{\textcolor{green!70!black}{Corregido.}} Las llaves ahora son \texttt{status} y \texttt{data}, cumpliendo con el esquema oficial del orquestador.
+    \item \textbf{Correcciones aplicadas por el revisor:}
+    \begin{itemize}
+        \item Se renombró la función de \texttt{procesar\_cidr} a \texttt{ping\_tcp\_syn} como estipulaba el diseño original.
+        \item Se unificó la variable del argumento usando \texttt{target\_range} en lugar de mezclarla con \texttt{rango\_cidr}.
+        \item Se corrigieron errores de \texttt{NameError} al invocar módulos de \texttt{scapy} que no habían sido importados correctamente (se añadió el import de la función \texttt{send}).
+        \item Se ajustó la indentación de los \textit{Docstrings} para evitar errores de tabulación en Python.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{\textcolor{green!70!black}{Estudiante 3 (ping\_tcp\_ack)}}
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{Estado:} Aprobado desde la primera revisión. Excelente implementación.
+\end{itemize}
+
+\section*{Acción Realizada}
+El módulo de Descubrimiento (\texttt{discovery.py}) ya está completamente integrado en la suite de auditoría y cumple con los requerimientos técnicos exigidos. ¡Buen trabajo al equipo por las iteraciones y correcciones!
+
+\end{document}
