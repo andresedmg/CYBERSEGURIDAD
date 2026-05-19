@@ -1,0 +1,60 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\geometry{a4paper, margin=1in}
+
+\lstset{
+    backgroundcolor=\color{gray!5},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    frame=single
+}
+
+\title{\textbf{Instrucciones para Consultar el Sistema RAG} \\ \large (Retrieval-Augmented Generation)}
+\author{Prof. César Rodríguez \\ \small Curso: Seguridad Informática}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{¿Qué es el Sistema RAG?}
+El sistema RAG (\textit{Retrieval-Augmented Generation}) actúa como el ``segundo cerebro'' o la base de conocimiento de nuestra Suite de Auditoría. A diferencia de un buscador tradicional, entiende el \textbf{contexto semántico} de sus problemas. Si se topan con un error desarrollando sus módulos (ya sea de Git, Python, Docker o del orquestador), es muy probable que el sistema ya conozca la solución basada en los errores previos del curso.
+
+\section*{¿Cómo realizar una consulta?}
+Para consultar la base de datos (impulsada por ChromaDB), utilizaremos el script \texttt{knowledge\_db.py} desde la terminal. 
+
+La estructura básica del comando es:
+\begin{lstlisting}[language=bash]
+python knowledge_db.py -c <coleccion> -q 'Tu pregunta en lenguaje natural'
+\end{lstlisting}
+
+\textbf{Parámetros:}
+\begin{itemize}
+    \item \texttt{-c <coleccion>}: Especifica la colección temática a consultar (ej. \texttt{auditoria}, \texttt{python}, \texttt{git}).
+    \item \texttt{-q '<texto>'}: Es la bandera de consulta (\textit{query}) seguida de su pregunta o descripción del problema entre comillas.
+\end{itemize}
+
+\section*{Ejemplos de Consultas}
+No necesitan recordar palabras exactas o códigos de error. Escriban con naturalidad describiendo su problema:
+
+\textbf{Ejemplo 1: Problemas de ejecución (Rate Limits, bloqueos, etc.)}
+\begin{lstlisting}[language=bash]
+python knowledge_db.py -c auditoria -q 'por que mi script de google dorks se detiene o no saca resultados'
+\end{lstlisting}
+
+\textbf{Ejemplo 2: Errores devueltos por la suite principal}
+\begin{lstlisting}[language=bash]
+python knowledge_db.py -c auditoria -q 'el orquestador me da un error de validacion JSON en la llave status'
+\end{lstlisting}
+
+\vspace{1cm}
+\noindent \textit{Nota: Si el RAG no tiene la respuesta, recuerden documentar la solución una vez que la encuentren para alimentar la base de datos, tal como se especifica en la \textbf{Guía del Sistema RAG} (\texttt{guia\_rag.pdf}).}
+
+\end{document}
